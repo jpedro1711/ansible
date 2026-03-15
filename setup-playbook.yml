@@ -9,7 +9,7 @@
     - name: Update all packages
       ansible.builtin.package:
         name: '*'
-        state: "{{ latest }}"
+        state: "{{ package_state }}"
     
     - name: Create a new user
       ansible.builtin.user:
