@@ -46,6 +46,11 @@
       when: inventory_hostname in groups['web']
       notify: Reload firewall
 
+    - name: Update motd from template
+      ansible.builtin.template:
+        src: templates/motd.j2
+        dest: /etc/motd
+
   handlers:
     - name: Reload firewall
       ansible.posix.firewalld:
