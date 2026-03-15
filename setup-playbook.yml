@@ -2,9 +2,6 @@
 - name: Basic system setup
   hosts: web
   become: true
-  vars:
-    package_state: 'latest'
-    user_name: 'jp2'
   tasks:
     - name: Update all packages
       ansible.builtin.package:
