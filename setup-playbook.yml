@@ -27,6 +27,7 @@
       ansible.builtin.package:
         name: firewalld
         state: present
+        update_cache: yes
       when: inventory_hostname in groups['web']
 
     - name: Ensure firewalld is running
