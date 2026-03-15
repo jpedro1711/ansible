@@ -1,0 +1,36 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for apache
+- name: Install apache on server
+  ansible.builtin.package:
+    name: "{{ package_name }}"
+    state: present
+  when: inventory_hostname in groups['web']
+
+- name: Install firewalld
+  ansible.builtin.package:
+    name: firewalld
+    state: present
+    update_cache: yes
+  when: inventory_hostname in groups['web']
+
+- name: Ensure firewalld is running
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+  when: inventory_hostname in groups['web']
+
+- name: Allow HTTP Traffic on web server
+  ansible.posix.firewalld:
+    service: http
+    permanent: true
+    immediate: true
+    state: enabled
+  when: inventory_hostname in groups['web']
+  notify: Reload firewall
+
+- name: Update motd from template
+  ansible.builtin.template:
+    src: templates/motd.j2
+    dest: /etc/motd
