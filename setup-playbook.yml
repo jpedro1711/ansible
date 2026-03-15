@@ -2,14 +2,17 @@
 - name: Basic system setup
   hosts: web
   become: true
+  vars:
+    package_state: 'latest'
+    user_name: 'jp2'
   tasks:
     - name: Update all packages
       ansible.builtin.package:
         name: '*'
-        state: latest
+        state: "{{ latest }}"
     
     - name: Create a new user
       ansible.builtin.user:
-        name: jp
+        name: "{{ user_name }}"
         state: present
         create_home: true
